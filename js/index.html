@@ -12,18 +12,44 @@
     <meta name="keywords" content="html5, tecnologia">
 </head>
 
+<style>
+    body {
+        background-color: darkolivegreen;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    div {
+        margin: 1px;
+        height: 400px;
+        background-color: gray;
+        float: left;
+        border: 2px solid black;
+        padding: 10px;
+    }
+
+    h2 {
+        text-decoration: underline;
+        font-size: medium;
+    }
+</style>
+
 <script>
     function tabuada(valor1, valor2) {
         return valor1 * valor2
     }
 
-    function exibirTabuada(){
+    function exibirTabuada() {
         for (let valor1 = 1; valor1 < 11; valor1++) {
+            document.write('<div>')
             document.write('<h2>Número ' + valor1 + '</h2>')
             for (let valor2 = 0; valor2 < 11; valor2++) {
                 let resultado = tabuada(valor2, valor1)
                 document.write('<p>' + valor2 + ' x ' + valor1 + ' = ' + resultado + ' </p>')
             }
+            document.write('</div>')
         }
         return ''
     }
@@ -33,7 +59,7 @@
 </script>
 
 <body>
-    
+
 </body>
 
 </html>
