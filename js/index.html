@@ -15,6 +15,9 @@
 <style>
     body {
         background-color: darkolivegreen;
+        width: 80%;
+        margin: auto;
+        margin-top: 30px;
     }
 
     h1 {
@@ -22,40 +25,37 @@
     }
 
     div {
-        margin: 1px;
-        height: 400px;
         background-color: gray;
-        float: left;
         border: 2px solid black;
+        margin: 1px;
+        width: 16%;
+        float: left;
         padding: 10px;
     }
 
     h2 {
-        text-decoration: underline;
+        border-bottom-style: solid;
         font-size: medium;
+        text-align: center;
+        background-color: slategray
+    }
+
+    .resultados {
+        text-align: center;
     }
 </style>
 
 <script>
-    function tabuada(valor1, valor2) {
-        return valor1 * valor2
-    }
-
-    function exibirTabuada() {
-        for (let valor1 = 1; valor1 < 11; valor1++) {
-            document.write('<div>')
-            document.write('<h2>Número ' + valor1 + '</h2>')
-            for (let valor2 = 0; valor2 < 11; valor2++) {
-                let resultado = tabuada(valor2, valor1)
-                document.write('<p>' + valor2 + ' x ' + valor1 + ' = ' + resultado + ' </p>')
-            }
-            document.write('</div>')
-        }
-        return ''
-    }
-
     document.write('<h1>Tabuada</h1>')
-    document.write(exibirTabuada())
+
+    for (let valor1 = 1; valor1 <= 10; valor1++) {
+        document.write('<div>')
+        document.write('<h2>Número ' + valor1 + '</h2>')
+        for (let valor2 = 1; valor2 <= 10; valor2++) {
+            document.write('<p class="resultados">' + valor2 + ' x ' + valor1 + ' = ' + (valor1 * valor2) + ' </p>')
+        }
+        document.write('</div>')
+    }
 </script>
 
 <body>
