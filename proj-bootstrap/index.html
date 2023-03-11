@@ -12,13 +12,24 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
+<style>
+    input {
+        border-width: 5px;
+        border-style: solid;
+    }
+</style>
+
 <script>
     var posicaoReg = -1;
     $(function () {
         listarProdutos();
 
         $('#btnSalvar').click(function () {
-            var produto = {
+            if (!validarCampos()) {
+                return;
+            };
+
+            let produto = {
                 nomeProduto: $('#txtNomeProduto').val(),
                 qtd: $('#txtQuantidade').val(),
                 valor: $('#txtValor').val(),
@@ -26,14 +37,13 @@
                 vendedor: $('#txtVendedor').val()
             };
 
-            var produtos = JSON.parse(localStorage.getItem('produtos'));
+            let produtos = JSON.parse(localStorage.getItem('produtos'));
 
             if (produtos == null) {
                 produtos = []
                 produtos.push(produto);
             }
             else {
-
                 if (posicaoReg > -1) {
                     produtos[posicaoReg] = produto
                 } else {
@@ -53,6 +63,10 @@
     });
 
     $(document).on('click', '#btnEditar', function () {
+        if (!validarCampos()) {
+            return;
+        };
+
         let posicao = parseInt($(this).attr("alt"))
         posicaoReg = posicao
         let produtos = JSON.parse(localStorage.getItem('produtos'))
@@ -64,6 +78,25 @@
         $('#txtValor').val(produto.valor)
         $('#txtDescricao').val(produto.descricao)
         $('#txtVendedor').val(produto.vendedor)
+    });
+
+    $(document).on('click', '#btnExcluir', function () {
+        let posicao = parseInt($(this).attr("alt"))
+        posicaoReg = posicao
+        let produtos = JSON.parse(localStorage.getItem('produtos'))
+
+        if (posicaoReg > -1) {
+            let produto = produtos[posicao]
+            if (confirm('Deseja realmente excluir o produto "' + produto.nomeProduto + '"')) {
+                produtos.splice(posicaoReg, 1)
+                localStorage.setItem('produtos', JSON.stringify(produtos))
+                listarProdutos();
+            }
+            posicaoReg = -1;
+        } else {
+            alert('Não há registros para excluir!')
+            return
+        };
     });
 
     function listarProdutos() {
@@ -82,7 +115,37 @@
                 '<button id="btnExcluir" alt="' + posicao + '" class="btn btn-info btn-sm">Excluir</button>' +
                 '</td></tr>')
         }
-    };    
+    };
+
+    function validarCampos() {
+        if ($.trim($('#txtNomeProduto').val()) == '') {
+            alert('Nome não preenchido')
+            $('#txtNomeProduto').focus();
+            return false
+        } else
+            if (($.trim($('#txtQuantidade').val()) == '') || ($('#txtQuantidade').val() <= 0)) {
+                alert('Quantidade não ser zero ou negativo')
+                $('#txtQuantidade').focus();
+                return false
+            } else
+                if (($.trim($('#txtValor').val()) == '') || ($('#txtValor').val() <= 0)) {
+                    alert('Valor não ser zero ou negativo')
+                    $('#txtValor').focus();
+                    return false
+                }
+                else
+                    if ($.trim($('#txtDescricao').val()) == '') {
+                        alert('Descrição não preenchido')
+                        $('#txtDescricao').focus();
+                        return false
+                    } else
+                        if ($.trim($('#txtVendedor').val()) == '') {
+                            alert('Vendedor não preenchido')
+                            $('#txtVendedor').focus();
+                            return false
+                        } else
+                            return true;
+    }
 </script>
 
 <body>
